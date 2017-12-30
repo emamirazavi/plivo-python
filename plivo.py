@@ -77,6 +77,8 @@ class RestAPI(object):
                              auth=(self.auth_id, self.auth_token),
                              data=json.dumps(data))
         content = r.content
+        if type(content) == bytes:
+            content = content.decode('utf-8')
         if content:
             try:
                 response = json.loads(content)
