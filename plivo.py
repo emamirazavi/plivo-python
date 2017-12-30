@@ -35,7 +35,8 @@ class RestAPI(object):
         self.url = url.rstrip('/') + '/' + self.version
         self.auth_id = auth_id
         self.auth_token = auth_token
-        self._api = self.url + '/Account/%s' % self.auth_id
+        # self._api = self.url + '/Account/%s' % self.auth_id
+        self._api = self.url
         self.headers = {'User-Agent':'PythonPlivo'}
         self.Call = Call(self)
         self.Number = Number(self)
@@ -53,11 +54,14 @@ class RestAPI(object):
     def _request(self, method, path, data={}):
         path = path.rstrip('/') + '/'
         if method == 'POST':
-            headers = {'content-type': 'application/json'}
-            headers.update(self.headers)
-            r = requests.post(self._api + path, headers=headers,
-                              auth=(self.auth_id, self.auth_token),
-                              data=json.dumps(data))
+            # headers = {'content-type': 'application/json'}
+            # headers.update(self.headers)
+            # r = requests.post(self._api + path, headers=headers,
+            #                   auth=(self.auth_id, self.auth_token),
+            #                   data=json.dumps(data))
+            # print(data)
+            r = requests.post(self._api + path, auth=(self.auth_id, self.auth_token),
+                              data=data)
         elif method == 'GET':
             r = requests.get(self._api + path, headers=self.headers,
                              auth=(self.auth_id, self.auth_token),
